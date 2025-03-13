@@ -3,7 +3,7 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #0d111f; /* Updated background color */
+  background-color: #0d111f; /* Dark blue background */
   color: #fff; /* White text for better contrast */
   line-height: 1.6;
 }
@@ -12,29 +12,38 @@ body {
 .banner {
   background-color: #1c2331;
   padding: 10px;
-  text-align: center;
   overflow: hidden;
   position: relative;
+  width: 100%;
+}
+
+.banner-container {
+  display: flex;
+  width: 300%; /* 3 slides, each taking 100% width */
+  animation: slide 30s infinite; /* 10s per slide */
 }
 
 .banner-slide {
-  display: none;
-  animation: slide 10s infinite;
+  display: flex;
+  width: 100%;
+  gap: 10px; /* Space between images */
+  justify-content: center;
+  align-items: center;
 }
 
-.banner-slide p {
-  margin: 0;
-  font-size: 1.2rem;
+.banner-slide img {
+  width: 150px; /* Adjust image size */
+  height: 150px;
+  border-radius: 10px; /* Rounded corners */
+  object-fit: cover; /* Ensure images fit nicely */
 }
 
-.banner-slide span {
-  color: #ff6347; /* Highlight color */
-  font-weight: bold;
-}
-
+/* Slide Animation */
 @keyframes slide {
-  0%, 100% { opacity: 0; }
-  10%, 90% { opacity: 1; }
+  0% { transform: translateX(0%); }
+  33.33% { transform: translateX(-100%); }
+  66.66% { transform: translateX(-200%); }
+  100% { transform: translateX(0%); }
 }
 
 /* Header Section */
