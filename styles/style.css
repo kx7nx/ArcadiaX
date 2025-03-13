@@ -3,14 +3,43 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f4f4f4;
-  color: #333;
+  background-color: #0d111f; /* Updated background color */
+  color: #fff; /* White text for better contrast */
   line-height: 1.6;
 }
 
+/* Banner Section */
+.banner {
+  background-color: #1c2331;
+  padding: 10px;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.banner-slide {
+  display: none;
+  animation: slide 10s infinite;
+}
+
+.banner-slide p {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.banner-slide span {
+  color: #ff6347; /* Highlight color */
+  font-weight: bold;
+}
+
+@keyframes slide {
+  0%, 100% { opacity: 0; }
+  10%, 90% { opacity: 1; }
+}
+
+/* Header Section */
 header {
-  background-color: #333;
-  color: #fff;
+  background-color: #1c2331;
   padding: 10px 20px;
   display: flex;
   justify-content: space-between;
@@ -19,6 +48,7 @@ header {
 
 header .logo h1 {
   margin: 0;
+  font-size: 2rem;
 }
 
 nav ul {
@@ -49,7 +79,6 @@ nav ul li a:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #fff;
   text-align: center;
 }
 
@@ -83,27 +112,26 @@ nav ul li a:hover {
 
 .game-list {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  gap: 10px; /* Smaller gap between games */
   flex-wrap: wrap;
 }
 
 .game-card {
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  background-color: #1c2331;
+  border-radius: 10px; /* Rounded corners */
   padding: 20px;
   width: 200px;
-  margin: 10px;
   text-align: center;
 }
 
 .game-card img {
   max-width: 100%;
-  border-radius: 5px;
+  border-radius: 10px; /* Rounded corners for images */
 }
 
 .game-card button {
-  background-color: #333;
+  background-color: #ff6347;
   color: #fff;
   border: none;
   padding: 10px 20px;
@@ -112,7 +140,7 @@ nav ul li a:hover {
 }
 
 .game-card button:hover {
-  background-color: #555;
+  background-color: #ff4500;
 }
 
 /* About and Contact Sections */
@@ -123,7 +151,7 @@ nav ul li a:hover {
 
 /* Footer */
 footer {
-  background-color: #333;
+  background-color: #1c2331;
   color: #fff;
   text-align: center;
   padding: 10px;
