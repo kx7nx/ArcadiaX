@@ -16,3 +16,9 @@ function nextSlide() {
 // Initialize the banner
 showSlide(currentSlide);
 setInterval(nextSlide, 10000); // Change slide every 10 seconds
+
+// Play Game Function
+function playGame(gameName) {
+  alert(`Starting ${gameName}...`);
+  // Add logic to launch the game here
+}
