@@ -14,28 +14,41 @@ body {
   overflow: hidden;
   position: relative;
   margin: 20px 0;
+  perspective: 1000px; /* Add perspective for 3D effect */
 }
 
 .banner-container {
   display: flex;
-  width: 300%; /* 3x the width to show previous/next banners */
-  animation: slide 30s infinite; /* 10s per slide */
+  width: 500%; /* 5x the width to show 2 banners on each side */
+  animation: slide 40s infinite; /* Slow sliding animation */
+  transform-style: preserve-3d; /* Enable 3D transformations */
 }
 
 .banner-slide {
   flex: 1;
-  min-width: 100%; /* Each slide takes full width */
+  min-width: 20%; /* Each slide takes 20% of the container */
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: transform 1s ease, opacity 1s ease, width 1s ease; /* Smooth transitions */
+  transform: scale(0.8); /* Smaller size for side banners */
+  opacity: 0.6; /* Faded look for side banners */
 }
 
 .banner-slide img {
-  width: 600px; /* Larger banner size */
+  width: 100%;
   height: 300px;
   border-radius: 10px;
   object-fit: cover;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 1s ease; /* Smooth scaling */
+}
+
+/* Middle Banner */
+.banner-slide.active {
+  transform: scale(1.2); /* Larger size for the middle banner */
+  opacity: 1; /* Fully visible */
+  z-index: 1; /* Bring to the front */
 }
 
 /* Slide Animation */
@@ -43,20 +56,35 @@ body {
   0%, 100% {
     transform: translateX(0%);
   }
-  16.66% {
-    transform: translateX(-100%); /* Move to the middle */
+  10% {
+    transform: translateX(-20%); /* Move to the first slide */
   }
-  33.33% {
-    transform: translateX(-100%); /* Stay in the middle */
+  20% {
+    transform: translateX(-20%); /* Stop for 5 seconds */
+  }
+  30% {
+    transform: translateX(-40%); /* Move to the next slide */
+  }
+  40% {
+    transform: translateX(-40%); /* Stop for 5 seconds */
   }
   50% {
-    transform: translateX(-200%); /* Move to the right */
+    transform: translateX(-60%); /* Move to the next slide */
   }
-  66.66% {
-    transform: translateX(-200%); /* Stay on the right */
+  60% {
+    transform: translateX(-60%); /* Stop for 5 seconds */
   }
-  83.33% {
-    transform: translateX(-100%); /* Move back to the middle */
+  70% {
+    transform: translateX(-80%); /* Move to the next slide */
+  }
+  80% {
+    transform: translateX(-80%); /* Stop for 5 seconds */
+  }
+  90% {
+    transform: translateX(-100%); /* Move to the next slide */
+  }
+  100% {
+    transform: translateX(-100%); /* Stop for 5 seconds */
   }
 }
 /* Header Section */
