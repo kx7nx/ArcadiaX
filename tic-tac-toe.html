@@ -10,9 +10,17 @@
   <!-- Tic Tac Toe Game Section -->
   <section id="tic-tac-toe">
     <h2>Tic Tac Toe</h2>
+    <div class="difficulty-menu">
+      <label for="difficulty">Choose Difficulty:</label>
+      <select id="difficulty">
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
+        <option value="extreme">Extreme</option>
+      </select>
+    </div>
     <div class="score-board">
-      <p>You: <span id="player-score">0</span></p>
-      <p>AI: <span id="ai-score">0</span></p>
+      <p>Your Score: <span id="player-score">0</span></p>
     </div>
     <div class="game-board">
       <div class="cell" data-index="0"></div>
@@ -26,6 +34,7 @@
       <div class="cell" data-index="8"></div>
     </div>
     <button id="reset">Reset Game</button>
+    <button id="end-game">End Game</button>
     <p id="status"></p>
   </section>
 

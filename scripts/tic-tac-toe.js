@@ -4,12 +4,12 @@ let board = ['', '', '', '', '', '', '', '', ''];
 const cells = document.querySelectorAll('.cell');
 const statusText = document.getElementById('status');
 const resetButton = document.getElementById('reset');
+const endGameButton = document.getElementById('end-game');
 const playerScoreElement = document.getElementById('player-score');
-const aiScoreElement = document.getElementById('ai-score');
-const gameBoard = document.querySelector('.game-board');
+const difficultySelect = document.getElementById('difficulty');
 
 let playerScore = 0;
-let aiScore = 0;
+let difficulty = 'easy'; // Default difficulty
 
 // Winning Patterns
 const winPatterns = [
@@ -28,8 +28,7 @@ cells.forEach(cell => {
       cell.textContent = currentPlayer;
       cell.classList.add(currentPlayer.toLowerCase()); // Add class for X or O
       if (checkWin(board)) {
-        playerScore++;
-        playerScoreElement.textContent = playerScore;
+        updateScore();
         statusText.textContent = 'You win!';
         drawWinLine(getWinningPattern(board));
       } else if (board.every(cell => cell !== '')) {
@@ -45,14 +44,27 @@ cells.forEach(cell => {
 
 // AI's Move
 function aiMove() {
-  let bestMove = getBestMove(board);
+  let bestMove;
+  switch (difficulty) {
+    case 'easy':
+      bestMove = getRandomMove();
+      break;
+    case 'medium':
+      bestMove = getMediumMove();
+      break;
+    case 'hard':
+      bestMove = getHardMove();
+      break;
+    case 'extreme':
+      bestMove = getBestMove();
+      break;
+  }
+
   if (bestMove !== -1) {
     board[bestMove] = 'O';
     cells[bestMove].textContent = 'O';
     cells[bestMove].classList.add('o'); // Add class for O
     if (checkWin(board)) {
-      aiScore++;
-      aiScoreElement.textContent = aiScore;
       statusText.textContent = 'AI wins!';
       drawWinLine(getWinningPattern(board));
     } else if (board.every(cell => cell !== '')) {
@@ -64,8 +76,17 @@ function aiMove() {
   }
 }
 
-// Get the Best Move for AI
-function getBestMove(board) {
+// Get a Random Move (Easy)
+function getRandomMove() {
+  const availableMoves = board.map((cell, index) => cell === '' ? index : -1).filter(index => index !== -1);
+  if (availableMoves.length > 0) {
+    return availableMoves[Math.floor(Math.random() * availableMoves.length)];
+  }
+  return -1; // No moves left
+}
+
+// Get a Medium Move (Tries to block the player)
+function getMediumMove() {
   // Try to win
   for (let i = 0; i < board.length; i++) {
     if (board[i] === '') {
@@ -91,12 +112,81 @@ function getBestMove(board) {
   }
 
   // Make a random move
-  const availableMoves = board.map((cell, index) => cell === '' ? index : -1).filter(index => index !== -1);
+  return getRandomMove();
+}
+
+// Get a Hard Move (Tries to win and block the player)
+function getHardMove() {
+  // Try to win
+  for (let i = 0; i < board.length; i++) {
+    if (board[i] === '') {
+      board[i] = 'O';
+      if (checkWin(board)) {
+        board[i] = '';
+        return i;
+      }
+      board[i] = '';
+    }
+  }
+
+  // Block the player from winning
+  for (let i = 0; i < board.length; i++) {
+    if (board[i] === '') {
+      board[i] = 'X';
+      if (checkWin(board)) {
+        board[i] = '';
+        return i;
+      }
+      board[i] = '';
+    }
+  }
+
+  // Make a strategic move (center or corners)
+  const centerAndCorners = [0, 2, 4, 6, 8];
+  const availableMoves = centerAndCorners.filter(index => board[index] === '');
   if (availableMoves.length > 0) {
     return availableMoves[Math.floor(Math.random() * availableMoves.length)];
   }
 
-  return -1; // No moves left
+  // Make a random move
+  return getRandomMove();
+}
+
+// Get the Best Move (Extreme - Unbeatable)
+function getBestMove() {
+  // Try to win
+  for (let i = 0; i < board.length; i++) {
+    if (board[i] === '') {
+      board[i] = 'O';
+      if (checkWin(board)) {
+        board[i] = '';
+        return i;
+      }
+      board[i] = '';
+    }
+  }
+
+  // Block the player from winning
+  for (let i = 0; i < board.length; i++) {
+    if (board[i] === '') {
+      board[i] = 'X';
+      if (checkWin(board)) {
+        board[i] = '';
+        return i;
+      }
+      board[i] = '';
+    }
+  }
+
+  // Make a strategic move (center or corners)
+  const centerAndCorners = [0, 2, 4, 6, 8];
+  const availableMoves = centerAndCorners.filter(index => board[index] === '');
+  if (availableMoves.length > 0) {
+    return availableMoves[Math.floor(Math.random() * availableMoves.length)];
+  }
+
+  // Make a random move
+  return getRandomMove();
 }
 
 // Check for a Win
@@ -145,7 +235,26 @@ function drawWinLine(pattern) {
     winLine.style.transform = `rotate(90deg)`;
   }
 
-  gameBoard.appendChild(winLine);
+  document.querySelector('.game-board').appendChild(winLine);
+}
+
+// Update Player Score
+function updateScore() {
+  switch (difficulty) {
+    case 'easy':
+      playerScore += 1;
+      break;
+    case 'medium':
+      playerScore += 2;
+      break;
+    case 'hard':
+      playerScore += 3;
+      break;
+    case 'extreme':
+      playerScore += 4;
+      break;
+  }
+  playerScoreElement.textContent = playerScore;
 }
 
 // Reset the Game
@@ -161,3 +270,19 @@ function resetGame() {
   statusText.textContent = "Your turn";
   document.querySelectorAll('.win-line').forEach(line => line.remove());
 }
+
+// End the Game and Convert Score to Coins
+endGameButton.addEventListener('click', () => {
+  const coins = playerScore * 10; // 1 point = 10 coins
+  localStorage.setItem('coins', coins); // Store coins in local storage
+  window.location.href = 'index.html'; // Redirect to the main page
+});
+
+// Set Difficulty
+difficultySelect.addEventListener('change', (event) => {
+  difficulty = event.target.value;
+  resetGame(); // Reset the game when difficulty changes
+});
+
+// Initial Setup
+resetGame();
